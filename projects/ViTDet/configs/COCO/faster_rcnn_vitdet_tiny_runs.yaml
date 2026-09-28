@@ -1,0 +1,119 @@
+pretrained_10:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.1
+  seed: 0
+
+pretrained_20:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.2
+  seed: 0
+
+pretrained_30:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.3
+  seed: 0
+
+pretrained_40:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.4
+  seed: 0
+
+pretrained_50:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.5
+  seed: 0
+
+pretrained_60:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.6
+  seed: 0
+
+pretrained_70:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.7
+  seed: 0
+
+pretrained_80:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.8
+  seed: 0
+
+pretrained_90:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 0.9
+  seed: 0
+
+pretrained_100:
+  init_checkpoint: "<mae_checkpoint_path>?matching_heuristics=True"
+  lr_decay_rate: 0.7
+  labeled_fraction: 1.0
+  seed: 0
+
+scratch_10:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.1
+  seed: 0
+
+scratch_20:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.2
+  seed: 0
+
+scratch_30:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.3
+  seed: 0
+
+scratch_40:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.4
+  seed: 0
+
+scratch_50:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.5
+  seed: 0
+
+scratch_60:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.6
+  seed: 0
+
+scratch_70:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.7
+  seed: 0
+
+scratch_80:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.8
+  seed: 0
+
+scratch_90:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 0.9
+  seed: 0
+
+scratch_100:
+  init_checkpoint: ""
+  lr_decay_rate: 1.0
+  labeled_fraction: 1.0
+  seed: 0

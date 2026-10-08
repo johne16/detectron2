@@ -2,6 +2,8 @@ from functools import partial
 import os
 import yaml
 
+from detectron2.data.datasets import register_coco_instances
+
 from .mask_rcnn_vitdet_b_100ep import (
     dataloader,
     lr_multiplier,
@@ -14,6 +16,24 @@ from .mask_rcnn_vitdet_b_100ep import (
 with open(os.path.join(os.path.dirname(__file__), "faster_rcnn_vitdet_tiny_runs.yaml")) as f:
     _run = yaml.safe_load(f)[os.environ["RUN"]]
 
+
+_coco_dir = "../datasets/coco"
+
+register_coco_instances(
+    "coco_2017_train_subset",
+    {},
+    os.path.join(_coco_dir, "annotations/instances_train2017.json"),
+    os.path.join(_coco_dir, "train/data"),
+)
+register_coco_instances(
+    "coco_2017_val_subset",
+    {},
+    os.path.join(_coco_dir, "annotations/instances_val2017.json"),
+    os.path.join(_coco_dir, "validation/data"),
+)
+
+dataloader.train.dataset.names = "coco_2017_train_subset"
+dataloader.test.dataset.names = "coco_2017_val_subset"
 
 train.init_checkpoint = _run["init_checkpoint"]
 train.seed = _run["seed"]

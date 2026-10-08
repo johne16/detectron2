@@ -43,6 +43,8 @@ model.backbone.net.depth = 12
 model.backbone.net.num_heads = 3
 model.backbone.net.drop_path_rate = 0.1
 
+model.roi_heads.num_classes = 9
+
 optimizer.params.lr_factor_func = partial(get_vit_lr_decay_rate, lr_decay_rate=_run["lr_decay_rate"], num_layers=12)
 
 # remove the mask branch arguments so the ROI heads build box prediction only (Faster R-CNN)

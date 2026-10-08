@@ -2,7 +2,9 @@ from functools import partial
 import os
 import yaml
 
+from detectron2.data import DatasetCatalog
 from detectron2.data.datasets import register_coco_instances
+from detectron2.data.datasets.labeled_fraction import register_coco_instances_labeled_fraction
 
 from .mask_rcnn_vitdet_b_100ep import (
     dataloader,
@@ -19,11 +21,12 @@ with open(os.path.join(os.path.dirname(__file__), "faster_rcnn_vitdet_tiny_runs.
 
 _coco_dir = "../datasets/coco"
 
-register_coco_instances(
+register_coco_instances_labeled_fraction(
     "coco_2017_train_subset",
     {},
     os.path.join(_coco_dir, "annotations/instances_train2017.json"),
     os.path.join(_coco_dir, "train/data"),
+    _run["labeled_fraction"],
 )
 register_coco_instances(
     "coco_2017_val_subset",
@@ -37,6 +40,18 @@ dataloader.test.dataset.names = "coco_2017_val_subset"
 
 train.init_checkpoint = _run["init_checkpoint"]
 train.seed = _run["seed"]
+train.eval_period = 500
+train.checkpointer.period = 500
+
+# Schedule
+# max_iter iters = num_epochs ep * num_images images/ep / total_batch_size images/iter
+_num_epochs = 100
+_num_images = len(DatasetCatalog.get("coco_2017_train_subset"))
+train.max_iter = round(_num_epochs * _num_images / dataloader.train.total_batch_size)
+
+lr_multiplier.scheduler.milestones = [round(train.max_iter * 8 / 9), round(train.max_iter * 26 / 27)]
+lr_multiplier.scheduler.num_updates = train.max_iter
+lr_multiplier.warmup_length = 500 / train.max_iter
 
 model.backbone.net.embed_dim = 192
 model.backbone.net.depth = 12

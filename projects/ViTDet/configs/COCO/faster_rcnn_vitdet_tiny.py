@@ -40,6 +40,7 @@ dataloader.test.dataset.names = "coco_2017_val_subset"
 
 train.init_checkpoint = _run["init_checkpoint"]
 train.seed = _run["seed"]
+train.output_dir = os.path.join(train.output_dir, os.environ["RUN"])
 train.eval_period = 500
 train.checkpointer.period = 500
 

@@ -39,7 +39,9 @@ class DetectionCheckpointer(Checkpointer):
 
         if path and isinstance(self.model, DistributedDataParallel):
             path = self.path_manager.get_local_path(path)
-            has_file = os.path.isfile(path)
+            has_file = os.path.isfile(path) or os.path.isfile(
+                urlparse(path)._replace(query="").geturl()
+            )
             all_has_file = comm.all_gather(has_file)
             if not all_has_file[0]:
                 raise OSError(f"File {path} not found on main worker.")

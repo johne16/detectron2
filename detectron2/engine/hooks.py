@@ -3,6 +3,7 @@
 
 import datetime
 import itertools
+import json
 import logging
 import math
 import operator
@@ -31,6 +32,7 @@ __all__ = [
     "CallbackHook",
     "IterationTimer",
     "PeriodicWriter",
+    "ElapsedTimeWriter",
     "PeriodicCheckpointer",
     "BestCheckpointer",
     "LRScheduler",
@@ -186,6 +188,47 @@ class PeriodicWriter(HookBase):
             # write them before closing
             writer.write()
             writer.close()
+
+
+class ElapsedTimeWriter(HookBase):
+    """
+    Write the elapsed time and the number of completed iterations to a json file periodically.
+
+    It is executed every ``period`` iterations and after training.
+    """
+
+    def __init__(self, json_file, period=20):
+        """
+        Args:
+            json_file (str): path to the json file. It is overwritten on each write.
+            period (int):
+        """
+        self._json_file = json_file
+        self._period = period
+        self._start_time = time.perf_counter()
+
+    def _write(self, completed):
+        with PathManager.open(self._json_file, "w") as f:
+            json.dump(
+                {
+                    "unit": "iteration",
+                    "completed": completed,
+                    "total": self.trainer.max_iter,
+                    "elapsed_seconds": time.perf_counter() - self._start_time,
+                },
+                f,
+            )
+            f.write("\n")
+
+    def before_train(self):
+        self._start_time = time.perf_counter()
+
+    def after_step(self):
+        if (self.trainer.iter + 1) % self._period == 0:
+            self._write(self.trainer.iter + 1 - self.trainer.start_iter)
+
+    def after_train(self):
+        self._write(self.trainer.iter - self.trainer.start_iter)
 
 
 class PeriodicCheckpointer(_PeriodicCheckpointer, HookBase):

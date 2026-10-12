@@ -13,6 +13,7 @@ To add more complicated training logic, you can easily add other configs
 in the config file and implement a new train_net.py to handle them.
 """
 import logging
+import os
 
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import LazyConfig, instantiate
@@ -92,6 +93,14 @@ def do_train(args, cfg):
             (
                 hooks.PeriodicWriter(
                     default_writers(cfg.train.output_dir, cfg.train.max_iter),
+                    period=cfg.train.log_period,
+                )
+                if comm.is_main_process()
+                else None
+            ),
+            (
+                hooks.ElapsedTimeWriter(
+                    os.path.join(cfg.train.output_dir, "timing.json"),
                     period=cfg.train.log_period,
                 )
                 if comm.is_main_process()

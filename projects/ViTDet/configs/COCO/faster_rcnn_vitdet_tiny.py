@@ -37,6 +37,7 @@ register_coco_instances(
 
 dataloader.train.dataset.names = "coco_2017_train_subset"
 dataloader.test.dataset.names = "coco_2017_val_subset"
+dataloader.train.total_batch_size = 32
 
 train.init_checkpoint = _run["init_checkpoint"]
 train.seed = _run["seed"]
@@ -61,6 +62,7 @@ model.backbone.net.drop_path_rate = 0.1
 
 model.roi_heads.num_classes = 9
 
+optimizer.lr = 5e-5
 optimizer.params.lr_factor_func = partial(get_vit_lr_decay_rate, lr_decay_rate=_run["lr_decay_rate"], num_layers=12)
 
 # remove the mask branch arguments so the ROI heads build box prediction only (Faster R-CNN)

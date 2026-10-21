@@ -459,7 +459,6 @@ class DefaultTrainer(TrainerBase):
         """
         cfg = self.cfg.clone()
         cfg.defrost()
-        cfg.DATALOADER.NUM_WORKERS = 0  # save some memory and time for PreciseBN
 
         ret = [
             hooks.IterationTimer(),
